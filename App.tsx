@@ -1,5 +1,12 @@
 import React, { useRef, useState, useCallback } from "react";
-import { StyleSheet, RefreshControl, Platform, ScrollView } from "react-native";
+import {
+    StyleSheet,
+    RefreshControl,
+    Platform,
+    ScrollView,
+    StatusBar,
+    Dimensions,
+} from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { WebView } from "react-native-webview";
 
@@ -10,7 +17,7 @@ export default function App(): JSX.Element {
     const onRefresh = useCallback(() => {
         setRefreshing(true);
         webviewRef.current?.reload();
-        setTimeout(() => setRefreshing(false), 1000); // wait a bit before ending refresh UI
+        setTimeout(() => setRefreshing(false), 1000);
     }, []);
 
     return (
@@ -19,9 +26,12 @@ export default function App(): JSX.Element {
                 style={styles.container}
                 edges={["top", "left", "right"]}
             >
+                {/* ✅ Fix for overlapping status bar (white background, dark text) */}
+                <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+
                 {Platform.OS === "ios" ? (
                     <ScrollView
-                        contentContainerStyle={{ flex: 1 }}
+                        style={{ flex: 1 }}
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}
@@ -32,6 +42,9 @@ export default function App(): JSX.Element {
                         <WebView
                             ref={webviewRef}
                             source={{ uri: "https://www.coinwait.com" }}
+                            style={{
+                                height: Dimensions.get("window").height * 2,
+                            }}
                             javaScriptEnabled
                             domStorageEnabled
                         />
@@ -41,7 +54,6 @@ export default function App(): JSX.Element {
                         ref={webviewRef}
                         source={{ uri: "https://www.coinwait.com" }}
                         pullToRefreshEnabled={true}
-                        onRefresh={onRefresh}
                         javaScriptEnabled
                         domStorageEnabled
                     />
@@ -54,5 +66,6 @@ export default function App(): JSX.Element {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: "#ffffff", // Match status bar background
     },
 });

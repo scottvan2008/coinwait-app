@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "coinwait-app",
-    "slug": "coinwait-app",
+    "name": "CoinWait",
+    "slug": "CoinWait",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,10 +19,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.scottvan2008.coinwaitapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "58cf1fd0-808b-4af4-af87-ef014f08f2ca"
+      }
     }
   }
 }
